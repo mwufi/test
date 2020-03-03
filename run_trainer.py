@@ -183,8 +183,7 @@ for epoch in range(op.num_epochs):
             'epoch': epoch,
             'i': i,
             'D(x)': D_x,
-            'D(G(z))_before': D_G_z1,
-            'D(G(z))_after': D_G_z2,
+            'D(G(z))': (D_G_z1 + D_G_z2)/2,
 
         })
 
