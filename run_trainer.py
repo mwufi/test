@@ -29,6 +29,7 @@ torch.manual_seed(manualSeed)
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
+print('Downloading data...')
 dataset = dset.FashionMNIST(root=op.dataroot,
                             download=True,
                             transform=transforms.Compose([
@@ -43,6 +44,8 @@ dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
 
 # Decide which device we want to run on
 device = torch.device("cuda:0" if (torch.cuda.is_available() and op.ngpu > 0) else "cpu")
+
+print('Using device: %s' % device)
 
 # Plot some training images
 real_batch = next(iter(dataloader))
