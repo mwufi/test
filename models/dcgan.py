@@ -1,4 +1,3 @@
-import wandb
 from torch import nn
 
 from models.layers import deconv, conv
@@ -12,8 +11,6 @@ class BaseModel(nn.Module):
     def make_dummy_input(self):
         pass
 
-
-# Generator Code
 
 class Generator(BaseModel):
     def __init__(self, opts):
