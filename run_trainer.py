@@ -24,7 +24,7 @@ init(wandb.config)
 op = wandb.config
 
 # Set random seed for reproducibility
-manualSeed = 998
+manualSeed = 993
 print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
@@ -191,7 +191,7 @@ for epoch in range(op.num_epochs):
         })
 
         # Check how the generator is doing by saving G's output on fixed_noise
-        if (iters % op.eval_ever == 0) or ((epoch == op.num_epochs - 1) and (i == len(dataloader) - 1)):
+        if (iters % op.eval_every == 0) or ((epoch == op.num_epochs - 1) and (i == len(dataloader) - 1)):
             with torch.no_grad():
                 fake = netG(fixed_noise).detach().cpu()
             wandb.log({
