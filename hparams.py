@@ -3,7 +3,7 @@ remote = 'wandb'
 log_freq = 100      # How often to send model gradients and stuff
 
 # Root directory for dataset
-dataroot = "fashion_mnist"
+dataroot = "celeba"
 
 # Number of workers for dataloader
 workers = 2
@@ -16,7 +16,7 @@ batch_size = 128
 image_size = 64
 
 # Number of channels in the training images. For color images this is 3
-nc = 1
+nc = 3
 
 # Size of z latent vector (i.e. size of generator input)
 nz = 100
@@ -25,7 +25,7 @@ nz = 100
 ngf = 64
 
 # Size of feature maps in discriminator
-ndf = 32
+ndf = 64
 
 # Number of training epochs
 num_epochs = 5
