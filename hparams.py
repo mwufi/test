@@ -14,6 +14,9 @@ batch_size = 128
 # How often to log evaluation images
 eval_every = 100
 
+# Discriminator updates per generator update
+discriminator_updates = 2
+
 # Spatial size of training images. All images will be resized to this
 #   size using a transformer.
 image_size = 64
