@@ -170,7 +170,7 @@ for epoch in range(op.num_epochs):
         ############################
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
-        errG, D_G_z2 = update_G(real_label)
+        errG, D_G_z2 = update_G(label)
 
         # Output training stats
         if i % 50 == 0:
