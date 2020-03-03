@@ -22,7 +22,7 @@ from utils import weights_init, parallelize
 wandb.init(project='dfdf')
 
 # Set random seed for reproducibility
-manualSeed = 999
+manualSeed = 998
 print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)

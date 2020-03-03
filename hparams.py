@@ -6,7 +6,7 @@ log_freq = 100      # How often to send model gradients and stuff
 dataroot = "celeba"
 
 # Number of workers for dataloader
-workers = 2
+workers = 20
 
 # Batch size during training
 batch_size = 128
