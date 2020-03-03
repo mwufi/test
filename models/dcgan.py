@@ -6,6 +6,7 @@ from models.layers import deconv, conv
 
 class BaseModel(nn.Module):
     def __init__(self, opts):
+        super(BaseModel, self).__init__()
         self.op = opts
 
     def make_dummy_input(self):
