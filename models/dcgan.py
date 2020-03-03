@@ -36,7 +36,7 @@ class Generator(BaseModel):
         return self.main(input)
 
 
-class Discriminator(nn.Module):
+class Discriminator(BaseModel):
     def __init__(self, opts):
         super(Discriminator, self).__init__(opts)
         ndf, nc = opts.ndf, opts.nc
