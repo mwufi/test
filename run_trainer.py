@@ -130,10 +130,10 @@ def update_D(real_cpu, label):
     errD = errD_real + errD_fake
     optimizerD.step()
 
-    return errD, D_x, D_G_z1
+    return errD, D_x, D_G_z1, fake
 
 
-def update_G(label):
+def update_G(generated_data, label):
     """Updates G by generating data and getting scores from D
 
     """
@@ -141,7 +141,7 @@ def update_G(label):
     label.fill_(real_label)  # fake labels are real for generator cost
 
     # How much the discriminator thinks the generated stuff is real (should be 0)
-    output = netD(fake).view(-1)
+    output = netD(generated_data).view(-1)
     D_G_z = output.mean().item()
 
     errG = criterion(output, label)
@@ -165,12 +165,13 @@ for epoch in range(op.num_epochs):
         label = torch.full((b_size,), real_label, device=device)
 
         for _ in range(op.discriminator_updates):
-            errD, D_x, D_G_z1 = update_D(real_cpu, label)
+            errD, D_x, D_G_z1, generated_data = update_D(real_cpu, label)
 
         ############################
         # (2) Update G network: maximize log(D(G(z)))
         ###########################
-        errG, D_G_z2 = update_G(label)
+        # Uses only the last round of generated data to backprop
+        errG, D_G_z2 = update_G(generated_data, label)
 
         # Output training stats
         if i % 50 == 0:
