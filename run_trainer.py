@@ -4,11 +4,9 @@ import random
 
 # For servers without X windows
 import matplotlib
+
 matplotlib.use('Agg')
 
-import matplotlib.pyplot as plt
-
-import numpy as np
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data
@@ -48,11 +46,8 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and op.ngpu > 0) el
 
 # Plot some training images
 real_batch = next(iter(dataloader))
-plt.figure(figsize=(8, 8))
-plt.axis("off")
-plt.title("Training Images")
 wandb.log({
-    'real': wandb.Image(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu(), (1, 2, 0)))
+    'Training images': wandb.Image(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu())
 })
 
 # Create the generator
