@@ -25,7 +25,7 @@ nz = 100
 ngf = 64
 
 # Size of feature maps in discriminator
-ndf = 64
+ndf = 32
 
 # Number of training epochs
 num_epochs = 5
