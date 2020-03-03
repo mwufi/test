@@ -15,11 +15,13 @@ import torchvision.transforms as transforms
 import torchvision.utils as vutils
 import wandb
 
-import hparams as op
+from hparams import init
 from models.dcgan import Generator, Discriminator
 from utils import weights_init, parallelize
 
 wandb.init(project='dfdf')
+init(wandb.config)
+op = wandb.config
 
 # Set random seed for reproducibility
 manualSeed = 998
