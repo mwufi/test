@@ -3,7 +3,7 @@ remote = 'wandb'
 log_freq = 100      # How often to send model gradients and stuff
 
 # Root directory for dataset
-dataroot = "emoji"
+dataroot = "fashion_mnist"
 
 # Number of workers for dataloader
 workers = 2
