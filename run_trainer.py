@@ -17,7 +17,7 @@ import wandb
 
 import hparams as op
 from models.dcgan import Generator, Discriminator
-from utils import weights_init
+from utils import weights_init, parallelize
 
 wandb.init(project='dfdf')
 
@@ -50,25 +50,27 @@ wandb.log({
     'Training images': wandb.Image(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu())
 })
 
+
+def create_model(model_class, op):
+    model = model_class(op)
+    model = parallelize(model, op)
+
+    # Apply the weights_init function to randomly initialize all weights
+    #  to mean=0, stdev=0.2.
+    model.apply(weights_init)
+
+    # Log the model
+    if op.remote == 'wandb':
+        wandb.watch(model, log_freq=op.log_freq)
+
+    print(model)
+
+    return model
+
+
 # Create the generator
-netG = Generator.create(op)
-
-# Apply the weights_init function to randomly initialize all weights
-#  to mean=0, stdev=0.2.
-netG.apply(weights_init)
-
-# Print the model
-print(netG)
-
-# Create the Discriminator
-netD = Discriminator.create(op)
-
-# Apply the weights_init function to randomly initialize all weights
-#  to mean=0, stdev=0.2.
-netD.apply(weights_init)
-
-# Print the model
-print(netD)
+netG = create_model(Generator, op)
+netD = create_model(Discriminator, op)
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()

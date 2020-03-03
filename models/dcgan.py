@@ -2,7 +2,6 @@ import wandb
 from torch import nn
 
 from models.layers import deconv, conv
-from utils import parallelize
 
 
 class BaseModel(nn.Module):
@@ -11,15 +10,6 @@ class BaseModel(nn.Module):
 
     def make_dummy_input(self):
         pass
-
-    @classmethod
-    def create(cls, opts):
-        model = cls(opts)
-        model = parallelize(model, opts)
-        if opts.remote == 'wandb':
-            print('Watching with wandb')
-            wandb.watch(model, log_freq=opts.log_freq)
-        return model
 
 
 # Generator Code
