@@ -72,6 +72,7 @@ def create_model(model_class, op):
 
 
 # Create the generator
+print('Creating models...')
 netG = create_model(Generator, op)
 netD = create_model(Discriminator, op)
 
@@ -169,7 +170,7 @@ for epoch in range(op.num_epochs):
         })
 
         # Check how the generator is doing by saving G's output on fixed_noise
-        if (iters % 500 == 0) or ((epoch == op.num_epochs - 1) and (i == len(dataloader) - 1)):
+        if (iters % op.eval_ever == 0) or ((epoch == op.num_epochs - 1) and (i == len(dataloader) - 1)):
             with torch.no_grad():
                 fake = netG(fixed_noise).detach().cpu()
             wandb.log({
