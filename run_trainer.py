@@ -30,7 +30,7 @@ torch.manual_seed(manualSeed)
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 print('Downloading data...')
-dataset = dset.celeba(root=op.dataroot,
+dataset = dset.LSUN(root=op.dataroot,
                       download=True,
                       transform=transforms.Compose([
                           transforms.Resize(op.image_size),
