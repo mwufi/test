@@ -20,6 +20,7 @@ from models.dcgan import Generator, Discriminator
 from utils import weights_init, parallelize
 
 wandb.init(project='dfdf')
+wandb.config.update(op)
 
 # Set random seed for reproducibility
 manualSeed = 998
