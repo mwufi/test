@@ -30,14 +30,14 @@ torch.manual_seed(manualSeed)
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 print('Downloading data...')
-dataset = dset.LSUN(root=op.dataroot,
-                    classes=['bedroom_train'],
-                    transform=transforms.Compose([
-                        transforms.Resize(op.image_size),
-                        transforms.CenterCrop(op.image_size),
-                        transforms.ToTensor(),
-                        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                    ]))
+dataset = dset.CelebA(root=op.dataroot,
+                      download=True,
+                      transform=transforms.Compose([
+                          transforms.Resize(op.image_size),
+                          transforms.CenterCrop(op.image_size),
+                          transforms.ToTensor(),
+                          transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                      ]))
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
                                          shuffle=True, num_workers=op.workers)
