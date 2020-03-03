@@ -1,46 +1,50 @@
+import wandb
+
+w = wandb.config
+
 # whether to watch the training with an external tool
-remote = 'wandb'
-log_freq = 100      # How often to send model gradients and stuff
+w.remote = 'wandb'
+w.log_freq = 100      # How often to send model gradients and stuff
 
 # Root directory for dataset
-dataroot = "celeba"
+w.dataroot = "celeba"
 
 # Number of workers for dataloader
-workers = 20
+w.workers = 20
 
 # Batch size during training
-batch_size = 128
+w.batch_size = 128
 
 # How often to log evaluation images
-eval_every = 100
+w.eval_every = 100
 
 # Discriminator updates per generator update
-discriminator_updates = 2
+w.discriminator_updates = 2
 
 # Spatial size of training images. All images will be resized to this
 #   size using a transformer.
-image_size = 64
+w.image_size = 64
 
 # Number of channels in the training images. For color images this is 3
-nc = 3
+w.nc = 3
 
 # Size of z latent vector (i.e. size of generator input)
-nz = 100
+w.nz = 100
 
 # Size of feature maps in generator
-ngf = 64
+w.ngf = 64
 
 # Size of feature maps in discriminator
-ndf = 64
+w.ndf = 64
 
 # Number of training epochs
-num_epochs = 5
+w.num_epochs = 5
 
 # Learning rate for optimizers
-lr = 0.0002
+w.lr = 0.0002
 
 # Beta1 hyperparam for Adam optimizers
-beta1 = 0.5
+w.beta1 = 0.5
 
 # Number of GPUs available. Use 0 for CPU mode.
-ngpu = 1
+w.ngpu = 1
