@@ -46,12 +46,12 @@ real_batch = next(iter(dataloader))
 plt.figure(figsize=(8, 8))
 plt.axis("off")
 plt.title("Training Images")
-plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu(), (1, 2, 0)))
+wandb.log({
+    'real': wandb.Image(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu(), (1, 2, 0)))
+})
 
 # Create the generator
 netG = Generator.create(op)
-
-wandb.watch(netG, log_freq=100)
 
 # Apply the weights_init function to randomly initialize all weights
 #  to mean=0, stdev=0.2.
@@ -62,7 +62,6 @@ print(netG)
 
 # Create the Discriminator
 netD = Discriminator.create(op)
-wandb.watch(netD, log_freq=100)
 
 # Apply the weights_init function to randomly initialize all weights
 #  to mean=0, stdev=0.2.
