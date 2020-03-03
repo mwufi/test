@@ -2,7 +2,12 @@ from __future__ import print_function
 
 import random
 
+# For servers without X windows
+import matplotlib
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
+
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
