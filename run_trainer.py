@@ -21,7 +21,7 @@ init(wandb.config)
 op = wandb.config
 
 # Set random seed for reproducibility
-manualSeed = 998
+manualSeed = 997
 print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
