@@ -69,14 +69,18 @@ class PokeSprites(dset.ImageFolder):
 
 def make_dataset(op):
     print('Downloading data...')
-    known_datasets = {
-        'celeba': lambda op: dset.CelebA(root='celeba', download=True, transform=make_transforms(op)),
-        'pokemon': lambda op: PokeSprites(op),
-        'fashion_mnist': lambda op: dset.FashionMNIST(root='fashion_mnist', download=True, transform=make_transforms(op))
-    }
 
-    if op.dataset not in known_datasets:
+    if op.dataset == 'celeba':
+        op.nc = 3
+        return dset.CelebA(root='celeba', download=True, transform=make_transforms(op))
+
+    elif op.dataset == 'fashion_mnist':
+        op.nc = 1
+        return dset.FashionMNIST(root='fashion_mnist', download=True, transform=make_transforms(op))
+
+    elif op.dataset == 'pokemon':
+        op.nc = 3
+        return PokeSprites(op)
+
+    else:
         raise ValueError(f'{op.dataset} not supported!')
-
-    data = known_datasets.get(op.dataset)
-    return data(op)
