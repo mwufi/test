@@ -70,9 +70,9 @@ class PokeSprites(dset.ImageFolder):
 def make_dataset(op):
     print('Downloading data...')
     known_datasets = {
-        'celeba': lambda op: dset.FashionMNIST(root='celeba', download=True, transform=make_transforms(op)),
+        'celeba': lambda op: dset.CelebA(root='celeba', download=True, transform=make_transforms(op)),
         'pokemon': lambda op: PokeSprites(op),
-        'fashion_mnist': lambda op: dset.CelebA(root='fashion_mnist', download=True, transform=make_transforms(op))
+        'fashion_mnist': lambda op: dset.FashionMNIST(root='fashion_mnist', download=True, transform=make_transforms(op))
     }
 
     if op.dataset not in known_datasets:
