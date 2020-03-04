@@ -1,5 +1,7 @@
 import os
+import shutil
 
+import git
 import torch
 from torch import nn
 from torch.autograd import Variable
@@ -23,6 +25,26 @@ def create_dir(directory):
     """Creates a directory if it does not already exist"""
     if not os.path.exists(directory):
         os.makedirs(directory)
+
+
+def ensure_empty(directory):
+    """Removes the directory if it exists and creates a new one"""
+    if os.path.isdir(directory):
+        shutil.rmtree(directory)
+
+    os.makedirs(directory)
+
+
+def git_clone(remote_url, output_directory):
+    ensure_empty(output_directory)
+
+    print(f'Cloning {remote_url} into {output_directory}...')
+    repo = git.Repo.init(output_directory)
+    origin = repo.create_remote('origin', remote_url)
+    origin.fetch()
+    origin.pull(origin.refs[0].remote_head)
+
+    print('Done!')
 
 
 # custom weights initialization called on netG and netD
