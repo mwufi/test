@@ -123,13 +123,8 @@ class DCGAN:
 
     def train(self, train_loader):
         for i in range(self.op.num_iterations):
-            d_iter = self.op.discriminator_updates
-            g_iter = 1
-
-            if i < 100:
-                # Update g extra to fool the discriminator early on
-                d_iter = 1
-                g_iter = 2
+            d_iter = 1
+            g_iter = 2
 
             for _ in range(d_iter):
                 epoch, iter, real_images = next(train_loader)
