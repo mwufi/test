@@ -123,13 +123,22 @@ class DCGAN:
 
     def train(self, train_loader):
         for i in range(self.op.num_iterations):
-            for _ in range(self.op.discriminator_updates):
+            d_iter = self.op.discriminator_updates
+            g_iter = 1
+
+            if i < 100:
+                # Update g extra to fool the discriminator early on
+                d_iter = 1
+                g_iter = 2
+
+            for _ in range(d_iter):
                 epoch, iter, real_images = next(train_loader)
                 batch_size = real_images.size(0)
-
                 generated_images = self.generate(batch_size)
                 d = self.update_D(real_images, generated_images)
-            g = self.update_G()
+
+            for _ in range(g_iter):
+                g = self.update_G()
 
             wandb.log({
                 'Generator loss': g['loss'],
