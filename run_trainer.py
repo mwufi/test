@@ -45,7 +45,6 @@ def create_train_data(op, device):
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
                                              shuffle=True, num_workers=op.workers)
 
-
     # Plot some training images
     real_batch = next(iter(dataloader))
     wandb.log({

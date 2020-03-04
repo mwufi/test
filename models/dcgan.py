@@ -76,15 +76,9 @@ class DCGAN:
     def generate_noise(self, batch_size):
         return torch.randn(batch_size, self.op.nz, 1, 1, device=self.device)
 
-    def forward_G(self, z, gradients=True):
-        outputs = self.G(z)
-        if not gradients:
-            return outputs.detach()
-        return outputs
-
-    def generate(self, batch_size, gradients=True):
+    def generate(self, batch_size):
         z = self.generate_noise(batch_size=batch_size)
-        return self.forward_G(z, gradients)
+        return self.G(z)
 
     def update_D(self, real_images, generated_images):
         batch_size = real_images.size(0)
@@ -92,7 +86,7 @@ class DCGAN:
         zeros = torch.full((batch_size,), 0, device=self.device)
 
         real_scores = self.D(real_images).view(-1)
-        fake_scores = self.D(generated_images).view(-1)
+        fake_scores = self.D(generated_images.detach()).view(-1)
 
         err_real = self.loss_fn(real_scores, ones)
         err_fake = self.loss_fn(fake_scores, zeros)
@@ -133,7 +127,7 @@ class DCGAN:
                 epoch, iter, real_images = next(train_loader)
                 batch_size = real_images.size(0)
 
-                generated_images = self.generate(batch_size=batch_size, gradients=False)
+                generated_images = self.generate(batch_size)
                 d = self.update_D(real_images, generated_images)
             g = self.update_G()
 
