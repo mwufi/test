@@ -23,6 +23,12 @@ def init(w):
     # Discriminator updates per generator update
     w.discriminator_updates = 2
 
+    # Random seed
+    w.seed = 995
+
+    # Known effects
+    # 997 - Collapse @ 10k steps on the Pokemon dataset!
+
     # Spatial size of training images. All images will be resized to this
     #   size using a transformer.
     w.image_size = 64
