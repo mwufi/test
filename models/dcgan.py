@@ -89,13 +89,14 @@ class DCGAN:
     def update_D(self, real_images, generated_images):
         batch_size = real_images.size(0)
         ones = torch.full((batch_size,), 1, device=self.device)
-        zeros = torch.full((batch_size,), 1, device=self.device)
+        zeros = torch.full((batch_size,), 0, device=self.device)
 
-        self.D.zero_grad()
         real_scores = self.D(real_images).view(-1)
         fake_scores = self.D(generated_images).view(-1)
 
         update = self.loss_fn(real_scores, ones) + self.loss_fn(fake_scores, zeros)
+
+        self.D.zero_grad()
         update.backward()
         self.D_optimizer.step()
 
@@ -111,10 +112,11 @@ class DCGAN:
         generated_images = self.generate(batch_size)
         ones = torch.full((batch_size,), 1, device=self.device)
 
-        self.G.zero_grad()
         fake_scores = self.D(generated_images).view(-1)
 
         update = self.loss_fn(fake_scores, ones)
+
+        self.G.zero_grad()
         update.backward()
         self.G_optimizer.step()
 
