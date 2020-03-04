@@ -141,7 +141,7 @@ class DCGAN:
                 'Generator loss': g['loss'],
                 'Disc loss': d['loss'],
                 'D(x)': d['real'],
-                'D(G(z))': (d['fake'] + g['fake'])/2,
+                'D(G(z))': (d['fake'] + g['fake']) / 2,
                 'i': i,
                 'epoch': epoch
             })
@@ -149,7 +149,8 @@ class DCGAN:
             # Output training stats
             if i % 50 == 0:
                 print('Epoch %d [%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.4f' %
-                      (epoch, i, self.op.num_iterations, d['loss'], g['loss'], d['real'], d['fake']))
+                      (epoch, i, self.op.num_iterations, d['loss'], g['loss'], d['real'],
+                       (d['fake'] + g['fake']) / 2))
 
             # Check how the generator is doing by saving G's output on fixed_noise
             if (i % self.op.eval_every == 0) or (i == self.op.num_iterations - 1):
