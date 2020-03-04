@@ -40,7 +40,7 @@ def init(w):
     w.ndf = 64
 
     # Number of training epochs
-    w.num_epochs = 5
+    w.num_epochs = 500
 
     # Learning rate for optimizers
     w.lr = 0.0002
