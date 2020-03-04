@@ -39,7 +39,7 @@ def init(w):
     w.image_size = 64
 
     # Number of channels in the training images. For color images this is 3
-    w.nc = 3
+    w.nc = 1
 
     # Size of z latent vector (i.e. size of generator input)
     w.nz = 100
