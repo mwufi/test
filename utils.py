@@ -47,6 +47,11 @@ def git_clone(remote_url, output_directory):
     print('Done!')
 
 
+def move(folder1, folder2):
+    """Moves one folder to another folder"""
+    shutil.move(folder1, folder2)
+
+
 # custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
