@@ -141,7 +141,7 @@ class DCGAN:
                 'Generator loss': g['loss'],
                 'Disc loss': d['loss'],
                 'D(x)': d['real'],
-                'D(G(x))': d['fake'],
+                'D(G(z))': (d['fake'] + g['fake'])/2,
                 'i': i,
                 'epoch': epoch
             })
