@@ -130,16 +130,16 @@ class DCGAN:
     def train(self, train_loader):
         for i in range(self.op.num_iterations):
             for _ in range(self.op.discriminator_updates):
-                epoch, i, real_images = next(train_loader)
+                epoch, iter, real_images = next(train_loader)
                 batch_size = real_images.size(0)
 
                 generated_images = self.generate(batch_size=batch_size, gradients=False)
                 d = self.update_D(real_images, generated_images)
 
-                print(f'Epoch: {epoch}, i={i}', d)
+                print(f'Epoch: {epoch}, i={iter}', d)
 
             g = self.update_G()
-            print(f'Epoch: {epoch}, i={i}', g)
+            print(f'Epoch: {epoch}, i={iter}', g)
 
             wandb.log({
                 'Generator loss': g['loss'],
