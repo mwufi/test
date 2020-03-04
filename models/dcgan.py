@@ -122,12 +122,17 @@ class DCGAN:
         }
 
     def train(self, train_loader):
+        # Grab the first batch of images
+        epoch, iter, real_images = next(train_loader)
+
         for i in range(self.op.num_iterations):
             d_iter = 1
             g_iter = 2
 
             for _ in range(d_iter):
-                epoch, iter, real_images = next(train_loader)
+                # Only use the first batch!!
+                epoch, iter, _ = next(train_loader)
+
                 batch_size = real_images.size(0)
                 generated_images = self.generate(batch_size)
                 d = self.update_D(real_images, generated_images)
@@ -156,4 +161,7 @@ class DCGAN:
                     fake = self.G(self.fixed_noise).detach().cpu()
                 wandb.log({
                     'Generated images': wandb.Image(vutils.make_grid(fake, padding=2, normalize=True))
+                })
+                wandb.log({
+                    'Training images': wandb.Image(vutils.make_grid(real_images, padding=2, normalize=True))
                 })
