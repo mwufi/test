@@ -94,16 +94,18 @@ class DCGAN:
         real_scores = self.D(real_images).view(-1)
         fake_scores = self.D(generated_images).view(-1)
 
-        update = self.loss_fn(real_scores, ones) + self.loss_fn(fake_scores, zeros)
+        err_real = self.loss_fn(real_scores, ones)
+        err_fake = self.loss_fn(fake_scores, zeros)
 
         self.D.zero_grad()
-        update.backward()
+        err_real.backward()
+        err_fake.backward()
         self.D_optimizer.step()
 
         return {
             'real': real_scores.mean().item(),
             'fake': fake_scores.mean().item(),
-            'loss': update
+            'loss': err_real + err_fake
         }
 
     def update_G(self):
