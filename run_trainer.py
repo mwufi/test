@@ -31,7 +31,6 @@ torch.manual_seed(manualSeed)
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-print('Downloading data...')
 dataset = make_dataset(op)
 
 # Create the dataloader

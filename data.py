@@ -1,7 +1,17 @@
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
+from PIL import Image
 
 from utils import git_clone, move
+
+
+def pil_loader(path):
+    # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
+    with open(path, 'rb') as f:
+        img = Image.open(f).convert('RGBA')
+        background = Image.new('RGBA', img.size, (255, 255, 255))
+        alpha_composite = Image.alpha_composite(background, img)
+        return alpha_composite.convert('RGB')
 
 
 def make_transforms(op):
@@ -57,6 +67,7 @@ class PokeSprites(dset.ImageFolder):
 
 
 def make_dataset(op):
+    print('Downloading data...')
     known_datasets = {
         'celeba': lambda op: dset.FashionMNIST(root='celeba', download=True, transform=make_transforms(op)),
         'pokemon': lambda op: PokeSprites(op),
