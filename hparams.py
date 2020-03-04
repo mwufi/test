@@ -31,9 +31,6 @@ def init(w):
     # Random seed
     w.seed = 999
 
-    # Known effects
-    # 997 - Collapse @ 10k steps on the Pokemon dataset!
-
     # Spatial size of training images. All images will be resized to this
     #   size using a transformer.
     w.image_size = 64

@@ -71,15 +71,15 @@ def make_dataset(op):
     print('Downloading data...')
 
     if op.dataset == 'celeba':
-        op.nc = 3
+        op.update({'nc': 3})
         return dset.CelebA(root='celeba', download=True, transform=make_transforms(op))
 
     elif op.dataset == 'fashion_mnist':
-        op.nc = 1
+        op.update({'nc': 1})
         return dset.FashionMNIST(root='fashion_mnist', download=True, transform=make_transforms(op))
 
     elif op.dataset == 'pokemon':
-        op.nc = 3
+        op.update({'nc': 3})
         return PokeSprites(op)
 
     else:
