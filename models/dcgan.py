@@ -81,9 +81,8 @@ class DCGAN:
         return self.G(z)
 
     def update_D(self, real_images, generated_images):
-        batch_size = real_images.size(0)
-        ones = torch.full((batch_size,), 1, device=self.device)
-        zeros = torch.full((batch_size,), 0, device=self.device)
+        ones = torch.full((real_images.size(0),), 1, device=self.device)
+        zeros = torch.full((generated_images.size(0),), 0, device=self.device)
 
         real_scores = self.D(real_images).view(-1)
         fake_scores = self.D(generated_images.detach()).view(-1)
@@ -118,7 +117,8 @@ class DCGAN:
 
         return {
             'fake': fake_scores.mean().item(),
-            'loss': update.item()
+            'loss': update.item(),
+            'generated_images': generated_images
         }
 
     def train(self, train_loader):
@@ -129,16 +129,14 @@ class DCGAN:
             d_iter = 1
             g_iter = 2
 
+            for _ in range(g_iter):
+                g = self.update_G()
+
             for _ in range(d_iter):
                 # Only use the first batch!!
                 epoch, iter, _ = next(train_loader)
 
-                batch_size = real_images.size(0)
-                generated_images = self.generate(batch_size)
-                d = self.update_D(real_images, generated_images)
-
-            for _ in range(g_iter):
-                g = self.update_G()
+                d = self.update_D(real_images, g['generated_images'])
 
             wandb.log({
                 'Generator loss': g['loss'],

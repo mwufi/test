@@ -111,3 +111,12 @@ def create_model(model_class, op):
     print(model)
 
     return model
+
+
+def infinite_data(dataloader, device):
+    epochs = 0
+    while True:
+        epochs += 1
+        for iter, (images, _) in enumerate(dataloader):
+            images = images.to(device)
+            yield epochs, iter, images

@@ -14,7 +14,7 @@ import wandb
 from hparams import init
 from models.dcgan import DCGAN
 from data import make_dataset
-from utils import gpu_check
+from utils import gpu_check, infinite_data
 
 wandb.init(project='dfdf')
 init(wandb.config)
@@ -25,15 +25,6 @@ manualSeed = op.seed
 print("Random Seed: ", manualSeed)
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
-
-
-def infinite_data(dataloader, device):
-    epochs = 0
-    while True:
-        epochs += 1
-        for iter, (images, _) in enumerate(dataloader):
-            images = images.to(device)
-            yield epochs, iter, images
 
 
 def create_train_data(op, device):
