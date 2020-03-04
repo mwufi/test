@@ -17,7 +17,7 @@ def init(w):
     w.batch_size = 128
 
     # How often to log evaluation images
-    w.eval_every = 100
+    w.eval_every = 500
 
     # Discriminator updates per generator update
     w.discriminator_updates = 2
