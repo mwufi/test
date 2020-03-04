@@ -40,6 +40,7 @@ def init(w):
     w.ndf = 64
 
     # Number of training epochs
+    # For pokemon, we only have 54 batches/epoch! So this will give us 25000 steps, or 4x DCGAN
     w.num_epochs = 500
 
     # Learning rate for optimizers
