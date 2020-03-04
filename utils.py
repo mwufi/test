@@ -3,7 +3,9 @@ import shutil
 
 import git
 import torch
+import wandb
 from torch import nn
+from torch import optim
 from torch.autograd import Variable
 
 
@@ -36,7 +38,6 @@ def ensure_empty(directory):
 
 
 def git_clone(remote_url, output_directory, clone_again=True):
-
     if clone_again or not os.path.exists(output_directory):
         ensure_empty(output_directory)
         print(f'Cloning {remote_url} into {output_directory}...')
@@ -70,6 +71,13 @@ def weights_init(m):
         nn.init.constant_(m.bias.data, 0)
 
 
+def gpu_check(op):
+    device = torch.device("cuda:0" if (torch.cuda.is_available() and op.ngpu > 0) else "cpu")
+    print('Using device: %s' % device)
+
+    return device
+
+
 def parallelize(model, op):
     number_of_gpus = op.ngpu
 
@@ -80,5 +88,26 @@ def parallelize(model, op):
     # Handle multi-gpu if desired
     if (device.type == 'cuda') and (number_of_gpus > 1):
         return nn.DataParallel(model, list(range(number_of_gpus)))
+
+    return model
+
+
+def create_optimizer(model, op):
+    return optim.Adam(model.parameters(), lr=op.lr, betas=(op.beta1, 0.999))
+
+
+def create_model(model_class, op):
+    model = model_class(op)
+    model = parallelize(model, op)
+
+    # Apply the weights_init function to randomly initialize all weights
+    #  to mean=0, stdev=0.2.
+    model.apply(weights_init)
+
+    # Log the model
+    if op.remote == 'wandb':
+        wandb.watch(model, log_freq=op.log_freq)
+
+    print(model)
 
     return model
