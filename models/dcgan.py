@@ -105,7 +105,7 @@ class DCGAN:
         return {
             'real': real_scores.mean().item(),
             'fake': fake_scores.mean().item(),
-            'loss': err_real + err_fake
+            'loss': (err_real + err_fake).item()
         }
 
     def update_G(self):
@@ -124,7 +124,7 @@ class DCGAN:
 
         return {
             'fake': fake_scores.mean().item(),
-            'loss': update
+            'loss': update.item()
         }
 
     def train(self, train_loader):
