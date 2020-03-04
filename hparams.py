@@ -24,7 +24,7 @@ def init(w):
     w.discriminator_updates = 4
 
     # Random seed
-    w.seed = 995
+    w.seed = 999
 
     # Known effects
     # 997 - Collapse @ 10k steps on the Pokemon dataset!
