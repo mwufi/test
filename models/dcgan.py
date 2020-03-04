@@ -129,7 +129,7 @@ class DCGAN:
                 epoch, i, real_images = next(train_loader)
                 batch_size = real_images.size(0)
 
-                generated_images = self.forward_G(batch_size=batch_size, gradients=False)
+                generated_images = self.generate(batch_size=batch_size, gradients=False)
                 d = self.update_D(real_images, generated_images)
 
             g = self.update_G()
