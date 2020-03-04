@@ -75,7 +75,7 @@ def make_dataset(op):
         return dset.CelebA(root='celeba', download=True, transform=make_transforms(op))
 
     elif op.dataset == 'fashion_mnist':
-        op.update({'nc': 1})
+        op.update({'nc': 3})
         return dset.FashionMNIST(root='fashion_mnist', download=True, transform=make_transforms(op))
 
     elif op.dataset == 'pokemon':
