@@ -21,7 +21,7 @@ def init(w):
     w.eval_every = 500
 
     # Discriminator updates per generator update
-    w.discriminator_updates = 2
+    w.discriminator_updates = 4
 
     # Random seed
     w.seed = 995
