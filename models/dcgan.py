@@ -57,7 +57,7 @@ class Discriminator(BaseModel):
 
 
 class DCGAN:
-    def __init__(self, op):
+    def __init__(self, op, device):
         self.G = create_model(Generator, op)
         self.D = create_model(Discriminator, op)
 
@@ -71,6 +71,7 @@ class DCGAN:
         self.fixed_noise = torch.randn(64, op.nz, 1, 1, device=self.device)
 
         self.op = op
+        self.device = device
 
     def generate_noise(self, batch_size):
         return torch.randn(batch_size, self.op.nz, 1, 1, device=self.device)

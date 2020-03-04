@@ -36,7 +36,7 @@ def infinite_data(dataloader, device):
             yield epochs, iter, images
 
 
-def create_train_data(op):
+def create_train_data(op, device):
     # Create the dataset
     dataset = make_dataset(op)
     print(dataset)
@@ -45,7 +45,6 @@ def create_train_data(op):
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
                                              shuffle=True, num_workers=op.workers)
 
-    device = gpu_check(op)
 
     # Plot some training images
     real_batch = next(iter(dataloader))
@@ -55,12 +54,13 @@ def create_train_data(op):
 
     return infinite_data(dataloader, device)
 
+device = gpu_check(op)
 
 print('Creating models...')
-awesome = DCGAN(op)
+awesome = DCGAN(op, device)
 
 print('Creating data...')
-real_data_loader = create_train_data(op)
+real_data_loader = create_train_data(op, device)
 
 print('Starting training loop..')
 awesome.train(real_data_loader)
