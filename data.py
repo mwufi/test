@@ -62,6 +62,7 @@ class PokeSprites(dset.ImageFolder):
 
         # Call the ImageFolder constructor
         super(PokeSprites, self).__init__(root='pokemon/sprites/items',
+                                          loader=pil_loader,
                                           transform=make_transforms(op),
                                           target_transform=None)
 
