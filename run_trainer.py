@@ -53,6 +53,7 @@ def create_train_data(op, device):
 
     return infinite_data(dataloader, device)
 
+
 device = gpu_check(op)
 
 print('Creating models...')
