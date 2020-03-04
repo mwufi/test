@@ -9,6 +9,7 @@ def init(w):
 
     # Dataset to use. One of: ['celeba', 'pokemon', 'fashion_mnist']
     w.dataset = 'pokemon'
+    w.clone_again = False
 
     # Number of workers for dataloader
     w.workers = 20
