@@ -10,14 +10,14 @@ matplotlib.use('Agg')
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data
-import torchvision.datasets as dset
-import torchvision.transforms as transforms
+
 import torchvision.utils as vutils
 import wandb
 
 from hparams import init
 from models.dcgan import Generator, Discriminator
 from utils import weights_init, parallelize
+from data import make_dataset
 
 wandb.init(project='dfdf')
 init(wandb.config)
@@ -32,14 +32,8 @@ torch.manual_seed(manualSeed)
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 print('Downloading data...')
-dataset = dset.CelebA(root=op.dataroot,
-                      download=True,
-                      transform=transforms.Compose([
-                          transforms.Resize(op.image_size),
-                          transforms.CenterCrop(op.image_size),
-                          transforms.ToTensor(),
-                          transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-                      ]))
+dataset = make_dataset(op.dataset)
+
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
                                          shuffle=True, num_workers=op.workers)

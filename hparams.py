@@ -7,8 +7,8 @@ def init(w):
     w.remote = 'wandb'
     w.log_freq = 100  # How often to send model gradients and stuff
 
-    # Root directory for dataset
-    w.dataroot = "celeba"
+    # Dataset to use. One of: ['celeba', 'pokemon', 'fashion_mnist']
+    w.dataset = 'pokemon'
 
     # Number of workers for dataloader
     w.workers = 20
