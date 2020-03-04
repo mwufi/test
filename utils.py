@@ -51,7 +51,12 @@ def git_clone(remote_url, output_directory, clone_again=True):
 
 
 def move(folder1, folder2):
-    """Moves one folder to another folder"""
+    """Moves one folder to another folder, skipping if it already exists"""
+
+    destination_name = os.path.join(folder2, folder1.split('/')[-1])
+    if os.path.exists(destination_name):
+        return
+
     shutil.move(folder1, folder2)
 
 
