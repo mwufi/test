@@ -134,7 +134,10 @@ class DCGAN:
                 generated_images = self.generate(batch_size=batch_size, gradients=False)
                 d = self.update_D(real_images, generated_images)
 
+                print(f'Epoch: {epoch}, i={i}', d)
+
             g = self.update_G()
+            print(f'Epoch: {epoch}, i={i}', g)
 
             wandb.log({
                 'Generator loss': g['loss'],
