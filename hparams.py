@@ -8,8 +8,13 @@ def init(w):
     w.log_freq = 100  # How often to send model gradients and stuff
 
     # Dataset to use. One of: ['celeba', 'pokemon', 'fashion_mnist']
-    w.dataset = 'pokemon'
+    w.dataset = 'fashion_mnist'
     w.clone_again = False
+
+    # Number of training epochs
+    # For pokemon, we only have 54 batches/epoch! So this will give us 25000 steps, or 4x DCGAN
+    w.num_epochs = 500
+    w.num_iterations = 5000
 
     # Number of workers for dataloader
     w.workers = 20
@@ -44,11 +49,6 @@ def init(w):
 
     # Size of feature maps in discriminator
     w.ndf = 64
-
-    # Number of training epochs
-    # For pokemon, we only have 54 batches/epoch! So this will give us 25000 steps, or 4x DCGAN
-    w.num_epochs = 500
-    w.num_iterations = 10000
 
     # Learning rate for optimizers
     w.lr = 0.0002
