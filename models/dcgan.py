@@ -68,7 +68,7 @@ class DCGAN:
 
         # Create batch of latent vectors that we will use to visualize
         #  the progression of the generator
-        self.fixed_noise = torch.randn(64, self.op.nz, 1, 1, device=self.device)
+        self.fixed_noise = torch.randn(64, op.nz, 1, 1, device=self.device)
 
         self.op = op
 
