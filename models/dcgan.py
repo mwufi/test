@@ -70,6 +70,8 @@ class DCGAN:
         #  the progression of the generator
         self.fixed_noise = torch.randn(64, self.op.nz, 1, 1, device=self.device)
 
+        self.op = op
+
     def generate_noise(self, batch_size):
         return torch.randn(batch_size, self.op.nz, 1, 1, device=self.device)
 
