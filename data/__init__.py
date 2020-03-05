@@ -3,9 +3,9 @@ import torchvision.datasets as dset
 import wandb
 from torchvision import utils as vutils
 
-from . import infinite_data
 from .pokemon import PokeSprites
 from .utils import make_transforms, infinite_data
+
 
 def make_dataset(op):
     print('Downloading data...')
