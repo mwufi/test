@@ -124,7 +124,7 @@ class DCGAN:
     def train(self, train_loader):
         for i in range(self.op.num_iterations):
             d_iter = self.op.discriminator_updates
-            g_iter = 1
+            g_iter = self.op.generator_updates
 
             for _ in range(g_iter):
                 g = self.update_G()

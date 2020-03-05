@@ -27,6 +27,7 @@ def init(w):
 
     # Discriminator updates per generator update
     w.discriminator_updates = 1
+    w.generator_updates = 1
 
     # Random seed
     w.seed = 999
