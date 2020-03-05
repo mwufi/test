@@ -1,7 +1,5 @@
 import os
-import shutil
 
-import git
 import torch
 import wandb
 from torch import nn
@@ -27,38 +25,6 @@ def create_dir(directory):
     """Creates a directory if it does not already exist"""
     if not os.path.exists(directory):
         os.makedirs(directory)
-
-
-def ensure_empty(directory):
-    """Removes the directory if it exists and creates a new one"""
-    if os.path.isdir(directory):
-        shutil.rmtree(directory)
-
-    os.makedirs(directory)
-
-
-def git_clone(remote_url, output_directory, clone_again=True):
-    if clone_again or not os.path.exists(output_directory):
-        ensure_empty(output_directory)
-        print(f'Cloning {remote_url} into {output_directory}...')
-        repo = git.Repo.init(output_directory)
-        origin = repo.create_remote('origin', remote_url)
-        origin.fetch()
-        origin.pull(origin.refs[0].remote_head)
-    else:
-        print(f'{output_directory} exists! Skipping clone')
-
-    print('Done!')
-
-
-def move(folder1, folder2):
-    """Moves one folder to another folder, skipping if it already exists"""
-
-    destination_name = os.path.join(folder2, folder1.split('/')[-1])
-    if os.path.exists(destination_name):
-        return
-
-    shutil.move(folder1, folder2)
 
 
 # custom weights initialization called on netG and netD
