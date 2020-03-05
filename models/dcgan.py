@@ -122,20 +122,15 @@ class DCGAN:
         }
 
     def train(self, train_loader):
-        # Grab the first batch of images
-        epoch, iter, real_images = next(train_loader)
-
         for i in range(self.op.num_iterations):
-            d_iter = 1
-            g_iter = 2
+            d_iter = self.op.discriminator_updates
+            g_iter = 1
 
             for _ in range(g_iter):
                 g = self.update_G()
 
             for _ in range(d_iter):
-                # Only use the first batch!!
-                epoch, iter, _ = next(train_loader)
-
+                epoch, iter, real_images = next(train_loader)
                 d = self.update_D(real_images, g['generated_images'])
 
             wandb.log({
