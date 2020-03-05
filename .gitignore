@@ -1,3 +1,9 @@
 
 .idea/
 __pycache__/
+
+# Dataset folders
+fashion_mnist/
+
+# From wandb
+wandb/

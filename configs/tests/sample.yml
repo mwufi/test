@@ -1,0 +1,51 @@
+ngpu: 1
+seed: 999
+name: random-run
+
+wandb:
+  log_freq: 100
+
+training:
+  save_every: 500
+  eval_every: 500
+  print_every: 50
+
+  checkpoint_dir: checkpoints
+
+  num_iterations: 2400
+  num_epochs: 50
+
+data:
+  name: fashion_mnist
+  number_channels: 1       # for color images, this is 3
+  clone_again: False
+
+  loader:
+    batch_size: 128
+    image_size: 64
+
+    workers: 20
+
+
+model:
+  name: dcgan
+
+  # If we remove this, don't train wgan
+  wgan:
+    clip: 0.1
+
+  # Helpful in training the model
+  g_iter: 1
+  d_iter: 1
+
+  generator:
+    nz: 100
+    nc: 64
+
+  discriminator:
+    nc: 64
+
+  optimiser:
+    name: adam
+    beta1: 0.5
+    beta2: 0.99
