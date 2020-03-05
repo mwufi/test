@@ -12,9 +12,8 @@ import torchvision.utils as vutils
 import wandb
 
 from hparams import init
-from models.dcgan import DCGAN
-from data import make_dataset
-from utils import gpu_check, infinite_data
+from data import make_dataset, infinite_data
+from utils import gpu_check
 
 wandb.init(project='dfdf')
 init(wandb.config)
@@ -32,14 +31,20 @@ def create_train_data(op, device):
     dataset = make_dataset(op)
     print(dataset)
 
+    image, label = dataset[0]
+    print(image.size(), label)
+
     # Create the dataloader
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
                                              shuffle=True, num_workers=op.workers)
 
     # Plot some training images
     real_batch = next(iter(dataloader))
+
     wandb.log({
-        'Training images': wandb.Image(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu())
+        'Training images': wandb.Image(vutils.make_grid(real_batch[0].to(device)[:64],
+                                                        padding=2,
+                                                        normalize=True).cpu())
     })
 
     return infinite_data(dataloader, device)
@@ -47,11 +52,11 @@ def create_train_data(op, device):
 
 device = gpu_check(op)
 
-print('Creating models...')
-awesome = DCGAN(op, device)
-
 print('Creating data...')
 real_data_loader = create_train_data(op, device)
 
-print('Starting training loop..')
-awesome.train(real_data_loader)
+# print('Creating models...')
+# awesome = DCGAN(op, device)
+#
+# print('Starting training loop..')
+# awesome.train(real_data_loader)

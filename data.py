@@ -84,3 +84,12 @@ def make_dataset(op):
 
     else:
         raise ValueError(f'{op.dataset} not supported!')
+
+
+def infinite_data(dataloader, device):
+    epochs = 0
+    while True:
+        epochs += 1
+        for iter, (images, _) in enumerate(dataloader):
+            images = images.to(device)
+            yield epochs, iter, images
