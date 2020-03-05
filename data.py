@@ -5,7 +5,7 @@ from PIL import Image
 from utils import git_clone, move
 
 
-def pil_loader(path):
+def rgba_loader(path):
     # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
     with open(path, 'rb') as f:
         img = Image.open(f).convert('RGBA')
@@ -15,11 +15,16 @@ def pil_loader(path):
 
 
 def make_transforms(op):
+    if op.nc == 1:
+        mean, std = (0.5,), (0.5,)
+    else:
+        mean, std = (0.5, 0.5, 0.5), (0.5, 0.5, 0.5)
+
     return transforms.Compose([
         transforms.Resize(op.image_size),
         transforms.CenterCrop(op.image_size),
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        transforms.Normalize(mean, std),
     ])
 
 
@@ -62,7 +67,7 @@ class PokeSprites(dset.ImageFolder):
 
         # Call the ImageFolder constructor
         super(PokeSprites, self).__init__(root='pokemon/sprites/items',
-                                          loader=pil_loader,
+                                          loader=rgba_loader,
                                           transform=make_transforms(op),
                                           target_transform=None)
 
@@ -71,15 +76,17 @@ def make_dataset(op):
     print('Downloading data...')
 
     if op.dataset == 'celeba':
-        op.update({'nc': 3}, allow_val_change=True )
-        return dset.CelebA(root='celeba', download=True, transform=make_transforms(op))
+        op.update({'nc': 3}, allow_val_change=True)
+        return dset.CelebA(root='celeba', download=True,
+                           transform=make_transforms(op))
 
     elif op.dataset == 'fashion_mnist':
-        op.update({'nc': 3}, allow_val_change=True )
-        return dset.FashionMNIST(root='fashion_mnist', download=True, transform=make_transforms(op))
+        op.update({'nc': 1}, allow_val_change=True)
+        return dset.FashionMNIST(root='fashion_mnist', download=True,
+                                 transform=make_transforms(op))
 
     elif op.dataset == 'pokemon':
-        op.update({'nc': 3}, allow_val_change=True )
+        op.update({'nc': 3}, allow_val_change=True)
         return PokeSprites(op)
 
     else:

@@ -12,6 +12,7 @@ import torchvision.utils as vutils
 import wandb
 
 from hparams import init
+from models.dcgan import DCGAN
 from data import make_dataset, infinite_data
 from utils import gpu_check
 
@@ -30,9 +31,6 @@ def create_train_data(op, device):
     # Create the dataset
     dataset = make_dataset(op)
     print(dataset)
-
-    image, label = dataset[0]
-    print(image.size(), label)
 
     # Create the dataloader
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
@@ -55,8 +53,8 @@ device = gpu_check(op)
 print('Creating data...')
 real_data_loader = create_train_data(op, device)
 
-# print('Creating models...')
-# awesome = DCGAN(op, device)
-#
-# print('Starting training loop..')
-# awesome.train(real_data_loader)
+print('Creating models...')
+awesome = DCGAN(op, device)
+
+print('Starting training loop..')
+awesome.train(real_data_loader)
