@@ -4,10 +4,10 @@ author:
 title: 'Pokemon - DCGAN - Overfitting'
 ---
 
-![image](charts/Section-0-Panel-1-x16jwi32e.png | width="50%")
-![image](charts/Section-0-Panel-2-yspmzh29k.png){width="0.5\linewidth"}
-![image](charts/Section-0-Panel-3-96k82b294.png){width="0.5\linewidth"}
-![image](charts/Section-0-Panel-4-z5sewdxzu.png){width="0.5\linewidth"}
+![image](charts/Section-0-Panel-1-x16jwi32e.png)
+![image](charts/Section-0-Panel-2-yspmzh29k.png)
+![image](charts/Section-0-Panel-3-96k82b294.png)
+![image](charts/Section-0-Panel-4-z5sewdxzu.png)
 
 Training the GAN to generate these specific images
 ==================================================
@@ -21,8 +21,13 @@ images) of PokeSprites.
 
 Results
 -------
+![image](pokemonOneBatch.png)
 
-Step 6528
+Fig. 1. 6500 iterations (there are a lot of good stuff before and after this... basically anything 2k-10k was like this)
+
+![image](training-data.png)
+
+Fig. 2. Training data
 
 I like this one because there are some pictures of cats! You can kinda
 match what's going on with the input images. Unfortunately, it's not as
