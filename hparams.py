@@ -1,4 +1,3 @@
-
 def init(w):
     """Sets up the Wandb config
     """
@@ -15,6 +14,10 @@ def init(w):
     # For pokemon, we only have 54 batches/epoch! So this will give us 25000 steps, or 4x DCGAN
     w.num_epochs = 500
     w.num_iterations = 2400
+
+    # WGAN training
+    w.wgan = True
+    w.clip_weights = 0.01
 
     # Number of workers for dataloader
     w.workers = 20
@@ -48,11 +51,16 @@ def init(w):
     # Size of feature maps in discriminator
     w.ndf = 64
 
+    # Optimizer
+    # w.optimizer = 'adam'
+    w.optimizer = 'rmsprop'
+
     # Learning rate for optimizers
     w.lr = 0.0002
 
     # Beta1 hyperparam for Adam optimizers
     w.beta1 = 0.5
+    w.beta2 = 0.999
 
     # Number of GPUs available. Use 0 for CPU mode.
     w.ngpu = 1

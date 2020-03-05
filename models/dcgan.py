@@ -4,7 +4,7 @@ import wandb
 from torch import nn
 
 from models.layers import deconv, conv
-from utils import create_model, create_optimizer
+from utils import create_optimizer, create_model
 
 
 class BaseModel(nn.Module):
@@ -73,6 +73,9 @@ class DCGAN:
         self.op = op
         self.device = device
 
+        if op.wgan:
+            self.clip = True
+
     def generate_noise(self, batch_size):
         return torch.randn(batch_size, self.op.nz, 1, 1, device=self.device)
 
@@ -94,6 +97,12 @@ class DCGAN:
         err_real.backward()
         err_fake.backward()
         self.D_optimizer.step()
+
+        # Clip the weights of discriminator
+        if self.clip:
+            clip = self.op.clip_weights
+            for p in self.D.parameters():
+                p.data.clamp_(-clip, clip)
 
         return {
             'real': real_scores.mean().item(),

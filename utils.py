@@ -2,8 +2,7 @@ import os
 
 import torch
 import wandb
-from torch import nn
-from torch import optim
+from torch import nn, optim
 from torch.autograd import Variable
 
 
@@ -59,10 +58,18 @@ def parallelize(model, op):
 
 
 def create_optimizer(model, op):
-    return optim.Adam(model.parameters(), lr=op.lr, betas=(op.beta1, 0.999))
+    if op.optimizer == 'adam':
+        return optim.Adam(model.parameters(), lr=op.lr, betas=(op.beta1, op.beta2))
+    elif op.optimizer == 'rmsprop':
+        return torch.optim.RMSprop(model.parameters(), lr=op.lr)
 
 
 def create_model(model_class, op):
+    """ Shortcut for:
+    1) DataParallel
+    2) Weights init
+    3) wandb watch
+    """
     model = model_class(op)
     model = parallelize(model, op)
 
