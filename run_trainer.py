@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import argparse
 import random
 
 import matplotlib
@@ -9,30 +10,57 @@ import wandb
 # For servers without X-windows
 matplotlib.use('Agg')
 
-from hparams import init
 from models.dcgan import DCGAN
 from data import create_train_data
 from utils import gpu_check
+from configs.parser import load_config
 
-# Init wandb
-wandb.init(project='dfdf')
-init(wandb.config)
-op = wandb.config
 
-# Set random seed for reproducibility
-manualSeed = op.seed
-print("Random Seed: ", manualSeed)
-random.seed(manualSeed)
-torch.manual_seed(manualSeed)
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type='str', default='configs/dcgan.yml', required=True,
+                        help="Config file to use")
 
-# Load data/models on GPU?
-device = gpu_check(op)
+    # TODO: Handle argument overrides :)
 
-print('Creating data...')
-real_data_loader = create_train_data(op, device)
+    # For now, we'll just read the config file and return that
+    args = parser.parse_args()
+    config = load_config(args.config)
+    print(config)
+    return config
 
-print('Creating models...')
-awesome = DCGAN(op, device)
 
-print('Starting training loop..')
-awesome.train(real_data_loader)
+def explore_data(data_loader):
+    pass
+
+
+def main():
+    op = parse_args()
+
+    # Set random seed for reproducibility
+    manualSeed = op.seed
+    print("Random Seed: ", manualSeed)
+    random.seed(manualSeed)
+    torch.manual_seed(manualSeed)
+
+    # Load data/models on GPU?
+    device = gpu_check(op)
+
+    print('Creating data...')
+    real_data_loader = create_train_data(op, device)
+
+    explore_data(real_data_loader)
+
+    # Init wandb
+    wandb.init(project='dfdf', config=op)
+
+    # Now we can enter the training loop!
+    print('Creating models...')
+    awesome = DCGAN(op, device)
+
+    print('Starting training loop..')
+    awesome.train(real_data_loader)
+
+
+if __name__ == "__main__":
+    main()
