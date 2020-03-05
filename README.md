@@ -11,7 +11,7 @@ Datasets:
 * PokeSprites!
 * CelebA
 
-Writeups & results are hosted [here](mwufi.github.io/gans). I'm including both what worked and what didn't work, since that's often helpful too. Feel free to open a pull request to share your experiences!
+Writeups & results are hosted [here](demos/writeups/README.md). I'm including both what worked and what didn't work, since that's often helpful too. Feel free to open a pull request to share your experiences!
 
 # Using Ganbox
 
