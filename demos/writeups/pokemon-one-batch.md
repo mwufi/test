@@ -4,11 +4,6 @@ author:
 title: 'Pokemon - DCGAN - Overfitting'
 ---
 
-![image](charts/Section-0-Panel-1-x16jwi32e.png)
-![image](charts/Section-0-Panel-2-yspmzh29k.png)
-![image](charts/Section-0-Panel-3-96k82b294.png)
-![image](charts/Section-0-Panel-4-z5sewdxzu.png)
-
 Training the GAN to generate these specific images
 ==================================================
 
@@ -21,11 +16,11 @@ images) of PokeSprites.
 
 Results
 -------
-![image](pokemonOneBatch.png)
+![image](pics/pokemonOneBatch.png)
 
 Fig. 1. 6500 iterations (there are a lot of good stuff before and after this... basically anything 2k-10k was like this)
 
-![image](training-data.png)
+![image](pics/training-data.png)
 
 Fig. 2. Training data
 
@@ -70,3 +65,8 @@ Should I train for longer? Will it ever approach input-quality?
 
 9 Weights and Biases,
 [https://wandb.com](https://app.wandb.ai/dfdf/dfdf/reports/Pokemon---DCGAN---Overfitting--Vmlldzo2MjY3MA/edit)
+
+![image](charts/Section-0-Panel-1-x16jwi32e.png)
+![image](charts/Section-0-Panel-2-yspmzh29k.png)
+![image](charts/Section-0-Panel-3-96k82b294.png)
+![image](charts/Section-0-Panel-4-z5sewdxzu.png)
