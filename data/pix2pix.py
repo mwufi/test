@@ -16,14 +16,20 @@ class Pix2Pix(ImageFolder):
     """
     This does the same thing as
 
+    ```
     sh data/download_pix2pix_data.sh facades
+    ```
 
-    But it downloads the dataset automatically, if need be
+    If you specify "facades" as your dataset, for example:
 
+    You'll get a Pix2Pix dataset with 606 images:
+
+    ```
     /facades
         /train      400 images
         /test       106 images
         /val        100 images
+    ```
 
     """
 
