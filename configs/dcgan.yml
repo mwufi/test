@@ -20,8 +20,8 @@ training:
   d_iter: 1
 
 data:
-  name: fashion_mnist
-  channels: 1       # for color images, this is 3
+  name: facades
+  channels: 3       # for color images, this is 3
   clone_again: False
 
   image_size: 64

@@ -1,6 +1,7 @@
 import torch
 import torchvision.datasets as dset
 
+from .pix2pix import Pix2Pix, Pix2Pix_Datasets
 from .pokemon import PokeSprites
 from .utils import make_transforms, infinite_data
 
@@ -19,6 +20,10 @@ def make_dataset(op):
 
     elif dataset_name == 'pokemon':
         return PokeSprites(op)
+
+    elif dataset_name in Pix2Pix_Datasets.keys():
+        return Pix2Pix(root=dataset_name, dataset_name=dataset_name, download=True,
+                       transform=make_transforms(op))
 
     else:
         raise ValueError(f'{dataset_name} not supported!')
