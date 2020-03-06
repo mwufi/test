@@ -17,9 +17,11 @@ class BaseModel(nn.Module):
 
 
 class Generator(BaseModel):
-    def __init__(self, opts):
-        super(Generator, self).__init__(opts)
-        nz, ngf, nc = opts.nz, opts.ngf, opts.nc
+    def __init__(self, op):
+        super(Generator, self).__init__(op)
+
+        nz, ngf, nc = op.model.nz, op.model.ngf, op.data.channels
+
         self.main = nn.Sequential(
             # input is Z, going into a convolution
             deconv(nz, ngf * 8, kernel_size=4, stride=1, padding=0, activation='relu'),
@@ -40,7 +42,9 @@ class Generator(BaseModel):
 class Discriminator(BaseModel):
     def __init__(self, opts):
         super(Discriminator, self).__init__(opts)
-        ndf, nc = opts.ndf, opts.nc
+
+        ndf, nc = opts.model.ndf, opts.data.channels
+
         self.main = nn.Sequential(
             conv(nc, ndf, 4, 2, 1, activation='leaky_relu'),
             conv(ndf, ndf * 2, 4, 2, 1, activation='leaky_relu'),
@@ -68,13 +72,14 @@ class DCGAN:
 
         # Create batch of latent vectors that we will use to visualize
         #  the progression of the generator
-        self.latent_size = op.model.generator.nz
-        self.fixed_noise = torch.randn(64, op.model.generator.nz, 1, 1, device=device)
+        self.latent_size = op.model.nz
+        self.fixed_noise = torch.randn(64, op.model.nz, 1, 1, device=device)
 
         self.op = op
         self.device = device
 
-        if op.model.get('wgan'):
+        if op.model.get('wgan_weight_clip'):
+            print('Using weight clipping on D:', op.model.wgan_weight_clip)
             self.clip = True
 
     def generate_noise(self, batch_size):
@@ -101,7 +106,7 @@ class DCGAN:
 
         # Clip the weights of discriminator
         if self.clip:
-            clip = self.op.model.wgan.clip
+            clip = self.op.model.wgan_weight_clip
             for p in self.D.parameters():
                 p.data.clamp_(-clip, clip)
 
@@ -133,8 +138,8 @@ class DCGAN:
 
     def train(self, train_loader):
         for i in range(self.op.training.num_iterations):
-            d_iter = self.op.model.d_iter
-            g_iter = self.op.model.g_iter
+            d_iter = self.op.training.d_iter
+            g_iter = self.op.training.g_iter
 
             for _ in range(g_iter):
                 g = self.update_G()

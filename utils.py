@@ -58,9 +58,10 @@ def parallelize(model, op):
 
 
 def create_optimizer(model, op):
-    if op.optimizer == 'adam':
+    op = op.optimizer
+    if op.name == 'adam':
         return optim.Adam(model.parameters(), lr=op.lr, betas=(op.beta1, op.beta2))
-    elif op.optimizer == 'rmsprop':
+    elif op.name == 'rmsprop':
         return torch.optim.RMSprop(model.parameters(), lr=op.lr)
 
 
@@ -78,8 +79,8 @@ def create_model(model_class, op):
     model.apply(weights_init)
 
     # Log the model
-    if op.remote == 'wandb':
-        wandb.watch(model, log_freq=op.log_freq)
+    if op.training.remote == 'wandb':
+        wandb.watch(model, log_freq=op.training.log_freq)
 
     print(model)
 
