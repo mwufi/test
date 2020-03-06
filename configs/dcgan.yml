@@ -20,10 +20,10 @@ data:
   channels: 1       # for color images, this is 3
   clone_again: False
 
+  image_size: 64
+
   loader:
     batch_size: 128
-    image_size: 64
-
     workers: 20
 
 
