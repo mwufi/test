@@ -9,7 +9,7 @@ training:
 
   checkpoint_dir: checkpoints
 
-  num_iterations: 2400
+  num_iterations: 10000
   num_epochs: 50
 
   remote: 'wandb'
