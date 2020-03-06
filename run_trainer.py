@@ -18,20 +18,14 @@ from configs.parser import load_config
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', type='str', default='configs/dcgan.yml', required=True,
+    parser.add_argument('--config', type=str, default='configs/dcgan.yml',
                         help="Config file to use")
 
     # TODO: Handle argument overrides :)
-
     # For now, we'll just read the config file and return that
     args = parser.parse_args()
     config = load_config(args.config)
-    print(config)
     return config
-
-
-def explore_data(data_loader):
-    pass
 
 
 def main():
@@ -49,10 +43,9 @@ def main():
     print('Creating data...')
     real_data_loader = create_train_data(op, device)
 
-    explore_data(real_data_loader)
-
     # Init wandb
     wandb.init(project='dfdf', config=op)
+    print('==== Config ====', wandb.config)
 
     # Now we can enter the training loop!
     print('Creating models...')

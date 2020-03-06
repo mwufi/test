@@ -9,23 +9,21 @@ from .utils import make_transforms, infinite_data
 
 def make_dataset(op):
     print('Downloading data...')
+    dataset_name = op.data.name
 
-    if op.dataset == 'celeba':
-        op.update({'nc': 3}, allow_val_change=True)
+    if dataset_name == 'celeba':
         return dset.CelebA(root='celeba', download=True,
                            transform=make_transforms(op))
 
-    elif op.dataset == 'fashion_mnist':
-        op.update({'nc': 1}, allow_val_change=True)
+    elif dataset_name == 'fashion_mnist':
         return dset.FashionMNIST(root='fashion_mnist', download=True,
                                  transform=make_transforms(op))
 
-    elif op.dataset == 'pokemon':
-        op.update({'nc': 3}, allow_val_change=True)
+    elif dataset_name == 'pokemon':
         return PokeSprites(op)
 
     else:
-        raise ValueError(f'{op.dataset} not supported!')
+        raise ValueError(f'{dataset_name} not supported!')
 
 
 def create_train_data(op, device):
@@ -34,8 +32,8 @@ def create_train_data(op, device):
     print(dataset)
 
     # Create the dataloader
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.batch_size,
-                                             shuffle=True, num_workers=op.workers)
+    dataloader = torch.utils.data.DataLoader(dataset, batch_size=op.data.loader.batch_size,
+                                             shuffle=True, num_workers=op.data.loader.workers)
 
     # Plot some training images
     real_batch = next(iter(dataloader))

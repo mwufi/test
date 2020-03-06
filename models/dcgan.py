@@ -68,16 +68,17 @@ class DCGAN:
 
         # Create batch of latent vectors that we will use to visualize
         #  the progression of the generator
-        self.fixed_noise = torch.randn(64, op.nz, 1, 1, device=device)
+        self.latent_size = op.model.generator.nz
+        self.fixed_noise = torch.randn(64, op.model.generator.nz, 1, 1, device=device)
 
         self.op = op
         self.device = device
 
-        if op.wgan:
+        if op.model.get('wgan'):
             self.clip = True
 
     def generate_noise(self, batch_size):
-        return torch.randn(batch_size, self.op.nz, 1, 1, device=self.device)
+        return torch.randn(batch_size, self.latent_size, 1, 1, device=self.device)
 
     def generate(self, batch_size):
         z = self.generate_noise(batch_size=batch_size)
@@ -100,7 +101,7 @@ class DCGAN:
 
         # Clip the weights of discriminator
         if self.clip:
-            clip = self.op.clip_weights
+            clip = self.op.model.wgan.clip
             for p in self.D.parameters():
                 p.data.clamp_(-clip, clip)
 
@@ -111,7 +112,7 @@ class DCGAN:
         }
 
     def update_G(self):
-        batch_size = self.op.batch_size
+        batch_size = self.op.data.loader.batch_size
 
         generated_images = self.generate(batch_size)
         ones = torch.full((batch_size,), 1, device=self.device)
@@ -131,9 +132,9 @@ class DCGAN:
         }
 
     def train(self, train_loader):
-        for i in range(self.op.num_iterations):
-            d_iter = self.op.discriminator_updates
-            g_iter = self.op.generator_updates
+        for i in range(self.op.training.num_iterations):
+            d_iter = self.op.model.d_iter
+            g_iter = self.op.model.g_iter
 
             for _ in range(g_iter):
                 g = self.update_G()
@@ -154,11 +155,11 @@ class DCGAN:
             # Output training stats
             if i % 50 == 0:
                 print('Epoch %d [%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f\tD(x): %.4f\tD(G(z)): %.4f' %
-                      (epoch, i, self.op.num_iterations, d['loss'], g['loss'], d['real'],
+                      (epoch, i, self.op.training.num_iterations, d['loss'], g['loss'], d['real'],
                        (d['fake'] + g['fake']) / 2))
 
             # Check how the generator is doing by saving G's output on fixed_noise
-            if (i % self.op.eval_every == 0) or (i == self.op.num_iterations - 1):
+            if (i % self.op.training.eval_every == 0) or (i == self.op.training.num_iterations - 1):
                 with torch.no_grad():
                     fake = self.G(self.fixed_noise).detach().cpu()
                 wandb.log({

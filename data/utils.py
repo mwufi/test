@@ -16,14 +16,14 @@ def rgba_loader(path):
 
 
 def make_transforms(op):
-    if op.nc == 1:
+    if op.data.channels == 1:
         mean, std = (0.5,), (0.5,)
     else:
         mean, std = (0.5, 0.5, 0.5), (0.5, 0.5, 0.5)
 
     return transforms.Compose([
-        transforms.Resize(op.image_size),
-        transforms.CenterCrop(op.image_size),
+        transforms.Resize(op.data.image_size),
+        transforms.CenterCrop(op.data.image_size),
         transforms.ToTensor(),
         transforms.Normalize(mean, std),
     ])

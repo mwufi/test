@@ -9,7 +9,7 @@ class PokeSprites(dset.ImageFolder):
 
     def __init__(self, op):
         # clone the pokemon repo if we don't have it already
-        git_clone('https://github.com/PokeAPI/sprites.git', 'pokemon', op.clone_again)
+        git_clone('https://github.com/PokeAPI/sprites.git', 'pokemon', op.data.clone_again)
         move('pokemon/sprites/pokemon', 'pokemon/sprites/items')
 
         # Call the ImageFolder constructor
